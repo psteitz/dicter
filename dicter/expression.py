@@ -24,8 +24,8 @@ class Match_Type(Enum):
     IN = 11                     # In
 
 
-# Dictionary with keys = comparator names and values = comparator implementations.
-COMPARES = {
+# Dictionary with keys = condition names and values = condition implementations.
+CONDITIONS = {
     Match_Type.EQUALS: lambda x, y: x == y,
     Match_Type.LESS_THAN: lambda x, y: float(x) < float(y),
     Match_Type.GREATER_THAN: lambda x, y: float(x) > float(y),
@@ -65,7 +65,7 @@ class Term:
         Return true if the record matches the assertion made by this Term.
         """
         if self.key in record:
-            return COMPARES[self.type](record[self.key], self.value)
+            return CONDITIONS[self.type](record[self.key], self.value)
         else:
             return False
 
