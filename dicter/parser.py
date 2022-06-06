@@ -1,6 +1,7 @@
 from typing import Dict
 from dicter.expression import Expression, Term, Match_Type, conj, disj, neg
 
+# Map condition symbols to match types.
 MATCH_SYMBOLS = {
     '$eq': Match_Type.EQUALS,
     '$lt': Match_Type.LESS_THAN,
@@ -15,6 +16,7 @@ MATCH_SYMBOLS = {
     '$in': Match_Type.IN
 }
 
+# Map logic symbols to logical operators
 LOGIC_SYMBOLS = {
     '$and': conj,
     '$or': disj,
@@ -22,18 +24,34 @@ LOGIC_SYMBOLS = {
 }
 
 
-class ParseError(Exception):
-    def __init__(self, msg: str) -> None:
+class Parse_error(Exception):
+    """
+    Exception raised when an error occurs parsing an input dictionary.
+    """
+
+    def __init__(self, msg: str = "") -> None:
+        """
+        Create a ParseError with the given error string.
+        Arguments:
+            msg : message string. Defaults to empty string.
+        """
         super().__init__()
         self.message = msg
 
 
 def parse(dict: Dict) -> Expression:
+    """
+    Create an expression from a dict.
+    Arguments:
+        dict : dictionary representing a filter expression
+    Raises:
+        Parse_error if dict is not valid
+    """
     # Make sure input dictionary is valid
     if len(dict) == 0:
-        raise ParseError("Cannot parse empty dictionary")
+        raise Parse_error("Cannot parse empty dictionary")
     if len(dict) > 1:
-        raise ParseError(
+        raise Parse_error(
             "Input dictionary should have just one top-level entry.")
     key = next(iter(dict))
     if key in MATCH_SYMBOLS:
@@ -52,11 +70,11 @@ def parse(dict: Dict) -> Expression:
         else:   # binary - make sure value is a list of two subexpressions
             args = dict[key]
             if not isinstance(args, list):
-                raise ParseError(
+                raise Parse_error(
                     "Parse failed. Expecting a list of arguments to", key, ". Got ", args)
             if len(args) != 2:
-                raise ParseError("Expecting 2 arguments to ",
-                                 key, ". Got ", args)
+                raise Parse_error("Expecting 2 arguments to ",
+                                  key, ". Got ", args)
             # Apply logical operator to result of parsing subexpressions
             if key == '$or':
                 return disj([parse(args[0]), parse(args[1])])
