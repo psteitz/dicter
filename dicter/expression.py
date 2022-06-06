@@ -9,7 +9,7 @@ import re
 
 class Match_Type(Enum):
     """
-    Symbolic names for comparators used in Terms.
+    Symbolic names for conditions used in Terms.
     """
     EQUALS = 1                  # Exact string match
     LESS_THAN = 2               # Float value less than
@@ -42,9 +42,19 @@ CONDITIONS = {
 
 class Term:
     """
-    Terms represent atomic assertions of the form record[key] <comparator> value
-    where <compartor> is one of the values in COMPARES.  Terms are the building
-    blocks for Expressions which are boolean combinations of terms. 
+    Terms represent atomic assertions of the form
+    record[key] <condition> value
+    where <condition> is one of the values in CONDITIONS.
+
+    For example, a Term with
+        key = 'age'
+        value = '20'
+        type = Match_Type.LESS_THAN
+    will match records satisfying
+        record['age'] < 20
+
+    Terms are the building blocks for Expressions which are
+    boolean combinations of terms.
     """
 
     def __init__(self, key: str, value: Union[str, List],
