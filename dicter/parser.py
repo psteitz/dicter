@@ -80,7 +80,6 @@ def parse(dict: Dict) -> Expression:
             # Apply logical operator to result of parsing subexpressions
             if key == '$or':
                 return disj(list(map(lambda arg: parse(arg), args)))
-                # return disj([parse(args[0]), parse(args[1])])
             else:  # must be $and
                 return conj(list(map(lambda arg: parse(arg), args)))
     else:
