@@ -88,3 +88,15 @@ def test_and_or():
     assert(len(recs) == 3)
     for rec in recs:
         assert(rec['name'] in ['Sally', 'Clarence', 'Poo'])
+
+
+def test_more_than_2_disjuncts():
+    recs = apply(
+        {'$or':
+         [
+             {'$gt': {'age': 20}},
+             {'$gt': {'weight': 105}},
+             {'team': 'ducks'}
+         ]
+         }, TEST_RECORDS)
+    assert(len(recs) == 5)

@@ -70,16 +70,19 @@ def parse(dict: Dict) -> Expression:
         else:   # binary - make sure value is a list of two subexpressions
             args = dict[key]
             if not isinstance(args, list):
-                raise Parse_error(
-                    "Parse failed. Expecting a list of arguments to", key, ". Got ", args)
-            if len(args) != 2:
-                raise Parse_error("Expecting 2 arguments to ",
-                                  key, ". Got ", args)
+                msg = "Parse failed. Expecting a list of arguments to " + \
+                    key + ". Got " + str(type(args))
+                raise Parse_error(msg)
+            if len(args) < 2:
+                msg = "Expecting a list of length at least 2 arguments for " + \
+                    key + " Got " + str(len(args))
+                raise Parse_error(msg)
             # Apply logical operator to result of parsing subexpressions
             if key == '$or':
-                return disj([parse(args[0]), parse(args[1])])
+                return disj(list(map(lambda arg: parse(arg), args)))
+                # return disj([parse(args[0]), parse(args[1])])
             else:  # must be $and
-                return conj([parse(args[0]), parse(args[1])])
+                return conj(list(map(lambda arg: parse(arg), args)))
     else:
         # Could be atomic but with '$eq' (default) ommitted.  Try that.
         return parse({'$eq': dict})
