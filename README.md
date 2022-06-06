@@ -2,7 +2,7 @@
 
 # dicter: filter and analyze python recordsets and csv files
 [![Package Status](https://img.shields.io/badge/status-experimental-yellow)](https://github.com/psteitz/dicter)
-[![License](https://img.shields.io/badge/license-apache2-green))](https://github.com/psteitz/dicter/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-apache2-green)](https://github.com/psteitz/dicter/blob/main/LICENSE)
 
 ## What is this?
 
