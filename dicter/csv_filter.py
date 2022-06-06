@@ -10,22 +10,19 @@ class CSV_filter:
         self.out_path = output_file_path
 
     def write_filtered_file(self, dict: Dict):
-        # Read full file into a list of dicts.
-        # FIXME: apply should be able to work with Dictreader.
-        #        We should not have to load the whole file into memory.
-        expression = parse(dict)
-        input_file = csv.DictReader(open(self.in_path))
-        records = []
-        for input in input_file:
-            records.append(input)
 
-        # apply the expression to the full recordset
-        filtered_records = apply(expression, records)
+        # Parse the input dict
+        expression = parse(dict)
+
+        # Open the input file
+        input_file = csv.DictReader(open(self.in_path))
+
+        # Apply the expression
+        filtered_records = apply(expression, input_file)
         if len(filtered_records) == 0:
             print("No records to write.  No file created.")
             return
 
-        # Write filtered records out to out_path
         # Get the field names from the first record
         field_names = filtered_records[0].keys()
 
