@@ -46,7 +46,7 @@ class Stats:
     def percentile(self, q: str) -> float:
         arg = str(q)
         if arg not in PERCENTILES:
-            ValueError
+            raise ValueError("Valid percentiles are 5, 10, 25, 50, 75, 90, and 95.")
         return self.percentiles()[arg]
 
     def n(self) -> int:
