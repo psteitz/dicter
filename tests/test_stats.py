@@ -1,4 +1,5 @@
 from dicter.stats import Stats
+import pytest
 
 RECORDS = [
     {"a": '10', "b": '100', "c": '1000'},
@@ -24,6 +25,13 @@ def test_percentiles():
     assert(stats.percentiles()['75'] == 400)
     assert(stats.percentiles()['90'] == 460)
     assert(stats.percentiles()['95'] == 480)
+    assert(stats.percentiles()['99'] == 496)
+
+
+def test_stats_bad_percentile():
+    with pytest.raises(ValueError):
+        stats = Stats(RECORDS, "b")
+        stats.percentile(80)
 
 
 def test_min():

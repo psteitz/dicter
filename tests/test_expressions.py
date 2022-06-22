@@ -145,8 +145,5 @@ def test_apply_with_stats():
                 {'$not': {'Station.State': 'Arizona'}}
             ]
          }, input_records)
-    print(Stats(filtered_records, 'Data.Temperature.Min Temp').percentile(90))
-    print(Stats(filtered_records, 'Data.Temperature.Max Temp').n())
-
     assert(Stats(filtered_records, 'Data.Temperature.Max Temp').n() == 94)
     assert(Stats(filtered_records, 'Data.Temperature.Min Temp').percentile(90) == 82.0)

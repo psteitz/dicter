@@ -5,7 +5,7 @@
 from typing import Dict, List
 import numpy as np
 
-PERCENTILES = [5, 10, 25, 50, 75, 90, 95]
+PERCENTILES = [1, 5, 10, 25, 50, 75, 90, 95, 99]
 
 
 class Stats:
@@ -45,8 +45,9 @@ class Stats:
 
     def percentile(self, q: str) -> float:
         arg = str(q)
-        if arg not in PERCENTILES:
-            raise ValueError("Valid percentiles are 5, 10, 25, 50, 75, 90, and 95.")
+        if int(arg) not in PERCENTILES:
+            raise ValueError(
+                "Valid percentiles are 1, 5, 10, 25, 50, 75, 90, 95 and 99.")
         return self.percentiles()[arg]
 
     def n(self) -> int:
