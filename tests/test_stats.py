@@ -20,18 +20,13 @@ def test_percentiles():
     stats = Stats(RECORDS, "b")
     assert(stats.percentiles()['50'] == 300)
     assert(stats.percentiles()['5'] == 120)
+    assert(stats.percentile(5) == 120)
     assert(stats.percentiles()['10'] == 140)
     assert(stats.percentiles()['25'] == 200)
     assert(stats.percentiles()['75'] == 400)
     assert(stats.percentiles()['90'] == 460)
     assert(stats.percentiles()['95'] == 480)
     assert(stats.percentiles()['99'] == 496)
-
-
-def test_stats_bad_percentile():
-    with pytest.raises(ValueError):
-        stats = Stats(RECORDS, "b")
-        stats.percentile(80)
 
 
 def test_min():

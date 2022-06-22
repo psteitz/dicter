@@ -43,12 +43,8 @@ class Stats:
             ret[str(p)] = np.percentile(self.data(), p)
         return ret
 
-    def percentile(self, q: str) -> float:
-        arg = str(q)
-        if int(arg) not in PERCENTILES:
-            raise ValueError(
-                "Valid percentiles are 1, 5, 10, 25, 50, 75, 90, 95 and 99.")
-        return self.percentiles()[arg]
+    def percentile(self, q: float) -> float:
+        return np.percentile(self.data(), q)
 
     def n(self) -> int:
         return len(self.data())
