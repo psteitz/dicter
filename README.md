@@ -29,7 +29,6 @@ There is no binary installer or packaged distribution at this time.
 [Apache 2.0](LICENSE)
 
 ## Documentation
-Basically non-existent, but here are some hints.
 
 Filter conditions for csvs or lists of records are expressed using python dictionaries in a hopefully intuitive syntax.  Complex boolean expressions are built by combining other expressions using logical operators ``$not, $and, $or``. "Atomic" assertions about record field values (key-value assertions) can be numeric or string comparisons, regex matching or list inclusion.
 
