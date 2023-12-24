@@ -5,18 +5,18 @@ from dicter.filter import apply
 CSV_FILE_PATH = 'weather.csv'
 
 # Parse the csv into a list of dicts
-input_file = csv.DictReader(open(CSV_FILE_PATH))
+input_file = csv.DictReader(open(CSV_FILE_PATH, encoding='utf-8'))
 records = []
-for input in input_file:
+for line in input_file:
     data = {}
-    data['precipitation'] = input['Data.Precipitation']
-    data['date'] = input['Date.Full']
-    data['city'] = input['Station.City']
-    data['state'] = input['Station.State']
-    data['avg_temp'] = input['Data.Temperature.Avg Temp']
-    data['max_temp'] = input['Data.Temperature.Max Temp']
-    data['min_temp'] = input['Data.Temperature.Min Temp']
-    data['wind'] = input['Data.Wind.Speed']
+    data['precipitation'] = line['Data.Precipitation']
+    data['date'] = line['Date.Full']
+    data['city'] = line['Station.City']
+    data['state'] = line['Station.State']
+    data['avg_temp'] = line['Data.Temperature.Avg Temp']
+    data['max_temp'] = line['Data.Temperature.Max Temp']
+    data['min_temp'] = line['Data.Temperature.Min Temp']
+    data['wind'] = line['Data.Wind.Speed']
     records.append(data)
 
 # All readings where min temperature is below zero
