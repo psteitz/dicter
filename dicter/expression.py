@@ -58,17 +58,17 @@ class Term:
     """
 
     def __init__(self, key: str, value: Union[str, List],
-                 type: Match_Type = Match_Type.EQUALS) -> None:
+                 tp: Match_Type = Match_Type.EQUALS) -> None:
         """
         Create a term making an assertion about the given key.
         Arguments:
             key:    the key whose value will be examined
             value:  comparison value or containing list
-            type:   (optional) the type of comparison. Default is equals.
+            tp:   (optional) the type of comparison. Default is equals.
         """
         self.key = key
         self.value = value
-        self.type = type
+        self.type = tp
 
     def matches(self, record: Dict) -> bool:
         """

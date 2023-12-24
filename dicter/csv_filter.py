@@ -19,18 +19,18 @@ class CSV_filter:
         self.in_path = input_file_path
         self.out_path = output_file_path
 
-    def write_filtered_file(self, dict: Dict):
+    def write_filtered_file(self, dct: Dict):
         """
         Filter the records in self.in_path using the expression represented by dict.
         Write the filtered records to self.out_path.
         Arguments:
-            dict : dictionary representing a filter expression.
+            dct : dictionary representing a filter expression.
         """
         # Parse the input dict
-        expression = parse(dict)
+        expression = parse(dct)
 
-        # Open the input file
-        input_file = csv.DictReader(open(self.in_path))
+        # Open the input file with explicit encoding
+        input_file = csv.DictReader(open(self.in_path, encoding='UTF8'))
 
         # Apply the expression
         filtered_records = apply(expression, input_file)

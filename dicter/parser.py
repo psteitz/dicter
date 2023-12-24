@@ -39,25 +39,25 @@ class Parse_error(Exception):
         self.message = msg
 
 
-def parse(dict: Dict) -> Expression:
+def parse(dct: Dict) -> Expression:
     """
     Create an expression from a dict.
     Arguments:
-        dict : dictionary representing a filter expression
+        dct : dictionary representing a filter expression
     Raises:
         Parse_error if dict is not valid
     """
     # Make sure input dictionary is valid
-    if len(dict) == 0:
+    if len(dct) == 0:
         raise Parse_error("Cannot parse empty dictionary")
-    if len(dict) > 1:
+    if len(dct) > 1:
         raise Parse_error(
             "Input dictionary should have just one top-level entry.")
-    key = next(iter(dict))
+    key = next(iter(dct))
     if key in MATCH_SYMBOLS:
         # atomic case - create a term.
         # Example: {'$eq', {'name': 'joe'}}
-        entry = dict[key]  # {'name' : 'joe'}
+        entry = dct[key]  # {'name' : 'joe'}
         attr = next(iter(entry))  # 'name'
         value = entry[attr]  # 'joe'
         comp = MATCH_SYMBOLS[key]  # Match_Type.EQUALS
@@ -66,9 +66,9 @@ def parse(dict: Dict) -> Expression:
         # Composite case - recurse.
         # Example: {$or : [{'$eq : {'name': 'Bob'}}, {'$eq' : {'name': 'Sally'}]}
         if key == '$not':  # unary
-            return neg(parse(dict[key]))
+            return neg(parse(dct[key]))
         else:   # binary - make sure value is a list of two subexpressions
-            args = dict[key]
+            args = dct[key]
             if not isinstance(args, list):
                 msg = "Parse failed. Expecting a list of arguments to " + \
                     key + ". Got " + str(type(args))
@@ -79,9 +79,9 @@ def parse(dict: Dict) -> Expression:
                 raise Parse_error(msg)
             # Apply logical operator to result of parsing subexpressions
             if key == '$or':
-                return disj(list(map(lambda arg: parse(arg), args)))
+                return disj(list(map(parse, args)))
             else:  # must be $and
-                return conj(list(map(lambda arg: parse(arg), args)))
+                return conj(list(map(parse, args)))
     else:
         # Could be atomic but with '$eq' (default) ommitted.  Try that.
-        return parse({'$eq': dict})
+        return parse({'$eq': dct})
